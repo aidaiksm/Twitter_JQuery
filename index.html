@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Tweet Tweet </title>
 </head>
 <body>
@@ -18,18 +19,25 @@
                 <nav class="header-nav">
                     <ul class="nav-list">
                         <li class="nav-item"> <a href="#">Home</a></li>
-                        <li class="nav-item"><a href="">Blog</a></li>
+                        <li class="nav-item"><a href="profile.html">Profile</a></li>
                     </ul>
                 </nav>
             </div>
             <div class="content">
                 <div class="content-form">
                     <input id="inp-tweet" type="text" placeholder="What's happening?">
-                    <button id="btn-tweet">Tweet</button>
+                    <div class="btn">
+                        <a id="btn-tweet" href="#">Tweet</a>
+                    </div>
                 </div>
-                <div class="feed">FEED</div>
+                <div class="feed">
+                    <h2 class="feed-title">Home</h2>
+                    <div class="decor"></div>
+                </div>
             </div>
         </div>
     </div>
+
+<script src="./js/main.js"></script>
 </body>
 </html>
