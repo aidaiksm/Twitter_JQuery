@@ -6,6 +6,7 @@ body {
     color: #404040;
     height: 960px;
     background-color: #C4E1E1;
+    
 }
 
 a {
@@ -107,7 +108,7 @@ h1 {
     padding: 8px 8px;
     margin: 0 25px;
     border: solid #90d3db;
-    border-radius: 15%;
+    border-radius: 25px;
     background-color: #90d3db;
     color: #fff;
 }
@@ -125,4 +126,100 @@ h1 {
     height: 1.2px;
     width: 542px;
     margin: 0 auto;
+}
+
+
+.container__inner {
+    width: 500px;
+    margin: 10px 30px;
+    font-size: 15px;
+}
+
+.icons {
+    margin: 10px 10px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.action-icon {
+    width: 18px;
+}
+
+
+
+.pagin{
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+/* Modal 
+======================= */
+
+.modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+    z-index: 10;
+    width: 475px;
+    height: 185px;
+}
+
+
+.modal.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.close-button {
+    outline: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.modal-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.modal-input {
+    width: 450px;
+    height: 70px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    padding-left: 10px;
+}
+
+.modal-icon {
+    width: 40px;
+}
+
+#overlay {
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+}
+
+
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
 }

@@ -33,10 +33,34 @@
                 <div class="feed">
                     <h2 class="feed-title">Home</h2>
                     <div class="decor"></div>
+                    <div class="container__inner">
+                        <div class="tweets">
+                        </div>
+                    </div>
+                    <div class="pagin">
+                        <button class="back">Previous</button>
+                        <button class="next">Next</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Pop Up window for editing -->
+    <div class="modal" id="modal">
+        <div class="modal-header">
+            <div class="title">Edit your message here: </div>
+            <button class="close-button">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input class="modal-input" type="text" name="" id="">
+            <a class="modal-save" href="#"><img class="modal-icon" src="./img/icons/tweet.svg" alt=""></a>
+        </div>
+    </div>
+
+    <div id="overlay"></div>
+
+
 
 <script src="./js/main.js"></script>
 </body>

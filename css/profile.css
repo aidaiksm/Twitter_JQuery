@@ -55,7 +55,7 @@ a {
     width: 745px;
     height: 180px;
     object-fit: cover;
-    border-radius: 1.5%;
+    border-radius: 17px;
 }
 
 
@@ -85,7 +85,7 @@ a {
     padding: 8px 8px;
     margin: 0 25px;
     border: solid #90d3db;
-    border-radius: 10%;
+    border-radius: 25px;
     background-color: #90d3db;
     color: #fff;
 }
@@ -166,4 +166,20 @@ a {
     height: 1.2px;
     width: 542px;
     margin: 0 auto;
+}
+
+
+.container__inner {
+    width: 500px;
+    margin: 10px 30px;
+    font-size: 15px;
+}
+
+.icons {
+    margin: 10px 10px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.action-icon {
+    width: 18px;
 }
