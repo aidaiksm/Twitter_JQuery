@@ -24,22 +24,38 @@
                 </nav>
             </div>
             <div class="content">
-                <div class="content-form">
-                    <input id="inp-tweet" type="text" placeholder="What's happening?">
-                    <div class="btn">
-                        <a id="btn-tweet" href="#">Tweet</a>
+                <div class="content__left">
+                    <div class="content-search">
+                        <input class="inp-search" type="text" placeholder='like "a bacon"'>
+                        <div class="btn">
+                            <a id="btn-search" class="btn-tweet" href="#">Search</a>
+                        </div>
+
+                    </div>
+                    <div class="content-form">
+                        <input class="inp-tweet" type="text" placeholder="What's happening?">
+                        <div class="btn">
+                            <a id="btn-send" class="btn-tweet" href="#">Tweet</a>
+                        </div>
                     </div>
                 </div>
                 <div class="feed">
-                    <h2 class="feed-title">Home</h2>
+                    <div class="feed__upper">
+                        <h2 class="feed-title">Home</h2>
+                        <div class="pagin">
+                            <div class="btn">
+                                <a class="btn-tweet" id="back" href="#">Back</a>
+                            </div>
+                            <span id="page-number"></span>
+                            <div class="btn">
+                                <a class="btn-tweet" id="next" href="#">Next</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="decor"></div>
                     <div class="container__inner">
                         <div class="tweets">
                         </div>
-                    </div>
-                    <div class="pagin">
-                        <button class="back">Previous</button>
-                        <button class="next">Next</button>
                     </div>
                 </div>
             </div>

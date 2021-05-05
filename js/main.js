@@ -1,6 +1,6 @@
-// elements--------------------------------------------------
-let inp = $('#inp-tweet');
-let send = $('#btn-tweet');
+// Elements--------------------------------------------------
+let inp = $('.inp-tweet');
+let send = $('#btn-send');
 let list = $('.tweets');
 
 
@@ -12,13 +12,23 @@ let modalClose = $('.close-button');
 let retweetList = $('.retweet');
 
 
-let pagBack = $('.back');
-let pagNext = $('.next');
+let pagBack = $('#back');
+let pagNext = $('#next');
+let pagNum = $('#page-number');
+
+
+
+let searchInp = $('.inp-search');
+let searchBtn = $('#btn-search');
+let feedTitle = $('.feed-title');
+
 
 
 
 
 // Add tweet -------------------------------------------------
+
+
 
 send.on('click', function(){
     let newMsg = {
@@ -35,7 +45,7 @@ send.on('click', function(){
 
 
 function postTweet(msg){
-    fetch('http://localhost:8000/tweets', {
+    fetch('http://localhost:3000/tweets', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -46,17 +56,21 @@ function postTweet(msg){
 }
 
 
+
+
 // Show tweets ------------------------------------------------
 
 let page = 1
 
 function render(){
-    let promise = fetch(`http://localhost:8000/tweets?_page=${page}&_limit=2`)
+    let promise = fetch(`http://localhost:3000/tweets?_page=${page}&_limit=2`)
     promise
         .then((response) => response.json())
         .then((data) => {
             list.html('')
             data.forEach(item => {
+                pagNum.html('')
+                pagNum.append(page)
                 list.append(`<div id=${item.id}>${item.message}
                 <div class="icons">
                                 <a href="">
@@ -82,19 +96,83 @@ function render(){
 
 
 
+
 // Pagination-----------------------------------------------
 
+
 pagBack.on('click', () => {
-    page--
+    if(page > 1){page--}
     render()
-    console.log(page)
+    pagNum.html('')
+    pagNum.append(page)
 })
 
 pagNext.on('click', () => {
-    page++
+    let promise = fetch('http://localhost:3000/tweets/')
+    promise
+        .then((response) => response.json())
+        .then((data) => {
+            let max = data.length
+            maxPage = max / 2
+            if(page < maxPage){
+                page++
+            }
+        })
     render()
-    console.log(page)
+    pagNum.html('')
+    pagNum.append(page)
+
 })
+
+
+
+// Search -------------------------------------------------
+
+searchBtn.on('click', function(){
+    let searchTxt = searchInp.val()
+    if(!searchTxt){
+        render() 
+        return}
+    search(searchTxt)
+    searchInp.val('')
+})
+
+
+function search(searchTxt){
+    let promise = fetch(`http://localhost:3000/tweets?q=${searchTxt}`)
+    promise
+        .then((response) => response.json())
+        .then((data) => {
+            list.html('')
+            data.forEach(item => {
+                pagBack.hide()
+                pagNext.hide()
+                pagNum.hide()
+                feedTitle.html('Search results:')
+                list.append(`<div id=${item.id}>${item.message}
+                <div class="icons">
+                                <a href="">
+                                    <img class="action-icon comment" src="./img/icons/comment.svg" alt="">
+                                </a>
+                                <a href="">
+                                    <img class="action-icon heart" src="./img/icons/heart.svg" alt="">
+                                </a>
+                                <a href="">
+                                    <img class="action-icon retweet" src="./img/icons/retweet.svg" alt="">
+                                </a>
+                                <a href="">
+                                    <img class="action-icon edit" src="./img/icons/edit.svg" alt="">
+                                </a>
+                                <a href="">
+                                    <img class="action-icon delete" src="./img/icons/x-mark.svg" alt="">
+                                </a>
+                            </div>
+                            </div>`)
+            })
+        })
+}
+
+
 
 
 
@@ -104,11 +182,14 @@ pagNext.on('click', () => {
 $('body').on('click', '.delete', function(event){
     event.preventDefault()
     let id = event.target.parentNode.parentNode.parentNode.id
-    fetch(`http://localhost:8000/tweets/${id}`,  {
+    fetch(`http://localhost:3000/tweets/${id}`,  {
         method: 'DELETE'
     })
     .then(() => render())
 })
+
+
+
 
 
 // Edit tweet ---------------------------------------------
@@ -127,7 +208,7 @@ $('body').on('click', '.edit', function(event){
         modal.removeClass('active')
         overlay.removeClass('active')
         if(!modalInp.val()) return; 
-        fetch(`http://localhost:8000/tweets/${id}`,  {
+        fetch(`http://localhost:3000/tweets/${id}`,  {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -138,6 +219,8 @@ $('body').on('click', '.edit', function(event){
     });
 })
 
+
+
 // Close Pop Up window ------------------------------------
 
 
@@ -145,6 +228,11 @@ modalClose.on('click', () => {
     modal.removeClass('active')
     overlay.removeClass('active')
 })
+
+
+
+
+
 
 
 
@@ -173,7 +261,7 @@ $('body').on('click', '.retweet', function(event){
 
 
 function createRetweet(retweetMsg){
-    let promise = fetch('http://localhost:8000/retweets', {
+    let promise = fetch('http://localhost:3000/retweets', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -188,7 +276,7 @@ function createRetweet(retweetMsg){
 // Show retweet --------------------------------------------
 
 function renderRetweets(msgId){
-    let promise = fetch('http://localhost:8000/retweets')
+    let promise = fetch('http://localhost:3000/retweets')
     promise
         .then((response) => response.json())
         .then((data) => {
@@ -216,6 +304,18 @@ function renderRetweets(msgId){
 
 
 
+
+
+// Like tweet ------------------------------------------------
+
+// $('body').on('click', '.heart', function(event){
+//     event.preventDefault()
+//     let msgId = event.target.parentNode.parentNode.parentNode.id
+//     let newLike = {
+//         likes: 
+//     }
+
+// })
 
 
 renderRetweets()
