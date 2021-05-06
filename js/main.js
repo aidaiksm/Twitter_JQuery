@@ -23,6 +23,8 @@ let searchBtn = $('#btn-search');
 let feedTitle = $('.feed-title');
 
 
+let comment = $('.comment');
+let commentHeader = $('.comment-header')
 
 
 
@@ -74,7 +76,7 @@ function render(){
                 list.append(`<div id=${item.id}>${item.message}
                 <div class="icons">
                                 <a href="">
-                                    <img class="action-icon comment" src="./img/icons/comment.svg" alt="">
+                                    <img class="action-icon reply" src="./img/icons/comment.svg" alt="">
                                 </a>
                                 <a href="">
                                     <img class="action-icon heart" src="./img/icons/heart.svg" alt="">
@@ -152,7 +154,7 @@ function search(searchTxt){
                 list.append(`<div id=${item.id}>${item.message}
                 <div class="icons">
                                 <a href="">
-                                    <img class="action-icon comment" src="./img/icons/comment.svg" alt="">
+                                    <img class="action-icon reply" src="./img/icons/comment.svg" alt="">
                                 </a>
                                 <a href="">
                                     <img class="action-icon heart" src="./img/icons/heart.svg" alt="">
@@ -226,6 +228,7 @@ $('body').on('click', '.edit', function(event){
 
 modalClose.on('click', () => {
     modal.removeClass('active')
+    comment.removeClass('active')
     overlay.removeClass('active')
 })
 
@@ -284,7 +287,7 @@ function renderRetweets(msgId){
                     retweetList.append(`<div id=${item.id}>${item.message}
                     <div class="icons">
                                     <a href="">
-                                        <img class="action-icon comment" src="./img/icons/comment.svg" alt="">
+                                        <img class="action-icon reply" src="./img/icons/comment.svg"  alt="">
                                     </a>
                                     <a href="">
                                         <img class="action-icon heart" src="./img/icons/heart.svg" alt="">
@@ -316,6 +319,37 @@ function renderRetweets(msgId){
 //     }
 
 // })
+
+
+
+// Comment tweet -------------------------------------------------
+
+$('body').on('click', '.reply', function(event){
+    event.preventDefault()
+    let id = event.target.parentNode.parentNode.parentNode.id
+    let txt = event.target.parentNode.parentNode.parentNode.firstChild.data
+    overlay.addClass('active')
+    comment.addClass('active')
+    commentHeader.after(`<div id=${id} class="msg">${txt}</div>`)
+    
+    modalSave.on('click', function(){
+        newTxt = {
+            message: modalInp.val()
+        } 
+        comment.removeClass('active')
+        overlay.removeClass('active')
+        if(!modalInp.val()) return; 
+        fetch(`http://localhost:3000/tweets/${id}`,  {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(newTxt)
+        })
+        .then(() => render())
+    });
+})
+
 
 
 renderRetweets()

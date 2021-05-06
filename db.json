@@ -1,22 +1,6 @@
 {
   "tweets": [
     {
-      "message": "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available",
-      "id": 1
-    },
-    {
-      "message": "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available",
-      "id": 2
-    },
-    {
-      "message": "ffasfasf",
-      "id": 3
-    },
-    {
-      "message": " One tasty English muffin,. Baby, that is what I am.. Ba-da-da-da-da-da-da! One tasty English muffin,. With some raspberry jam.",
-      "id": 4
-    },
-    {
       "message": "render()",
       "id": 5
     }
@@ -25,14 +9,6 @@
     {
       "message": "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available. Wikipedia\n                ",
       "id": 1
-    },
-    {
-      "message": "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available\n                ",
-      "id": 2
-    },
-    {
-      "message": " One tasty English muffin,. Baby, that is what I am.. Ba-da-da-da-da-da-da! One tasty English muffin,. With some raspberry jam.\n                ",
-      "id": 3
     }
   ],
   "likes": []
