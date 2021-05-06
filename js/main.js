@@ -78,11 +78,15 @@ function render(){
                                 <a href="">
                                     <img class="action-icon reply" src="./img/icons/comment.svg" alt="">
                                 </a>
+                                <div>
                                 <a href="">
                                     <img class="action-icon heart" src="./img/icons/heart.svg" alt="">
+                
                                 </a>
+                                <span>${item.likes}<span>
+                                </div>
                                 <a href="">
-                                    <img class="action-icon retweet" src="./img/icons/retweet.svg" alt="">
+                                    <img class="action-icon share" src="./img/icons/retweet.svg" alt="">
                                 </a>
                                 <a href="">
                                     <img class="action-icon edit" src="./img/icons/edit.svg" alt="">
@@ -160,7 +164,7 @@ function search(searchTxt){
                                     <img class="action-icon heart" src="./img/icons/heart.svg" alt="">
                                 </a>
                                 <a href="">
-                                    <img class="action-icon retweet" src="./img/icons/retweet.svg" alt="">
+                                    <img class="action-icon share" src="./img/icons/retweet.svg" alt="">
                                 </a>
                                 <a href="">
                                     <img class="action-icon edit" src="./img/icons/edit.svg" alt="">
@@ -246,7 +250,7 @@ modalClose.on('click', () => {
 // Retweets --------------------------------------------
 
 
-$('body').on('click', '.retweet', function(event){
+$('body').on('click', '.share', function(event){
     event.preventDefault()
     let msgId = event.target.parentNode.parentNode.parentNode.id
     let txt = event.target.parentNode.parentNode.parentNode.firstChild.data
@@ -271,32 +275,33 @@ function createRetweet(retweetMsg){
         },
         body: JSON.stringify(retweetMsg)
     })
-    .then(() => render())
+    .then(() => renderRetweets())
 }
 
 
 
 // Show retweet --------------------------------------------
 
-function renderRetweets(msgId){
+function renderRetweets(){
     let promise = fetch('http://localhost:3000/retweets')
     promise
         .then((response) => response.json())
         .then((data) => {
             data.forEach(item => {
+                    console.log(item)
                     retweetList.append(`<div id=${item.id}>${item.message}
                     <div class="icons">
                                     <a href="">
-                                        <img class="action-icon reply" src="./img/icons/comment.svg"  alt="">
+                                        <img class="action-icon re-reply" src="./img/icons/comment.svg"  alt="">
                                     </a>
                                     <a href="">
-                                        <img class="action-icon heart" src="./img/icons/heart.svg" alt="">
+                                        <img class="action-icon re-heart" src="./img/icons/heart.svg" alt="">
                                     </a>
                                     <a href="">
-                                        <img class="action-icon edit" src="./img/icons/edit.svg" alt="">
+                                        <img class="action-icon re-edit" src="./img/icons/edit.svg" alt="">
                                     </a>
                                     <a href="">
-                                        <img class="action-icon delete" src="./img/icons/x-mark.svg" alt="">
+                                        <img class="action-icon re-delete" src="./img/icons/x-mark.svg" alt="">
                                     </a>
                                 </div>
                                 </div>`)
@@ -306,49 +311,93 @@ function renderRetweets(msgId){
 
 
 
+// Delete retweet --------------------------------------------
+
+
+$('body').on('click', '.re-delete', async function(event){
+    let retweetid = event.target.parentNode.parentNode.parentNode.id
+    console.log(retweetid)
+    let response = await fetch(`http://localhost:3000/retweets/${retweetid}`,  {
+        method: 'DELETE'
+    })
+    renderRetweets()
+})
+
+
+
+
 
 
 
 // Like tweet ------------------------------------------------
 
-// $('body').on('click', '.heart', function(event){
-//     event.preventDefault()
-//     let msgId = event.target.parentNode.parentNode.parentNode.id
-//     let newLike = {
-//         likes: 
-//     }
+$('body').on('click', '.heart', async function(event){
+    event.preventDefault()
+    let msgId = event.target.parentNode.parentNode.parentNode.id
+    let resp = await fetch(`http://localhost:3000/tweets/${msgId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify()
+    })
+    let obj = await resp.json()
+    console.log(obj)
 
-// })
+    if(obj.likes === NaN){
+        let newLike = {
+            likes: 1
+        }
+        likeTweet(newLike, msgId)
+    }else{
+        let likeNum = ++ obj.likes
+        let newLike = {
+            likes: likeNum
+        }
+        likeTweet(newLike, msgId)
 
+    }
+})
+
+
+function likeTweet(like, msgId){
+    fetch(`http://localhost:3000/tweets/${msgId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(like)
+    })
+}
 
 
 // Comment tweet -------------------------------------------------
 
-$('body').on('click', '.reply', function(event){
-    event.preventDefault()
-    let id = event.target.parentNode.parentNode.parentNode.id
-    let txt = event.target.parentNode.parentNode.parentNode.firstChild.data
-    overlay.addClass('active')
-    comment.addClass('active')
-    commentHeader.after(`<div id=${id} class="msg">${txt}</div>`)
-    
-    modalSave.on('click', function(){
-        newTxt = {
-            message: modalInp.val()
-        } 
-        comment.removeClass('active')
-        overlay.removeClass('active')
-        if(!modalInp.val()) return; 
-        fetch(`http://localhost:3000/tweets/${id}`,  {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(newTxt)
-        })
-        .then(() => render())
-    });
-})
+// $('body').on('click', '.reply', function(event){
+//     event.preventDefault()
+//     let id = event.target.parentNode.parentNode.parentNode.id
+//     let txt = event.target.parentNode.parentNode.parentNode.firstChild.data
+//     overlay.addClass('active')
+//     comment.addClass('active')
+//     commentHeader.after(`<div id=${id} class="msg">${txt}</div>`)
+//     console.dir(comment[0])
+//     modalSave.on('click', function(){
+//         newTxt = {
+//             message: modalInp.val()
+//         } 
+//         comment.removeClass('active')
+//         overlay.removeClass('active')
+//         if(!modalInp.val()) return; 
+//         fetch(`http://localhost:3000/tweets/${id}`,  {
+//             method: 'PUT',
+//             headers: {
+//                 'Content-Type': 'application/json;charset=utf-8'
+//             },
+//             body: JSON.stringify(newTxt)
+//         })
+//         .then(() => render())
+//     });
+// })
 
 
 
